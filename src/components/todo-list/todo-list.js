@@ -1,7 +1,7 @@
 import React from 'react';
 import './todo-list.css';
 
-import TodoListItem from './todo-list-item';
+import TodoListItem from '../todo-list-item';
 
 const TodoList = ({todos}) => {
     // ... - это spread оператор для объекта. Он переписывает значения из объектов
