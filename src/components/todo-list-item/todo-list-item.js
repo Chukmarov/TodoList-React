@@ -3,29 +3,32 @@ import './todo-list-item.css'
 
 export default class TodoListItem extends Component{
 
-
   //ниже объект состояния элемента. Его нельзя перезаписывать. Изменить объект state можно только функцией setState
   state ={
     done: false,
     important: false
   };
 
-  // применение функции setState
+  // применение функции setState. Обрати внимание на запсиь. setState э то асинхронная функция. Она ждет выполнения прочих this.setState. Таким образом может не успеть просчитаться конечное значение, когда ты начнешь его менять. Чтоб этого не происходило и мы всегда получали конечного значение переменной, перед тем как начать ее менять, нужно передать в setState функцию. Это будет сигналом для React что сначала нужно все просчитать, а потом вычислять нашу переменную.
   onLabelClick = () => {
-    this.setState({
-      done: true
+    this.setState(({done})=>{
+      return {
+        done: !done
+      };
     })
   };
 
-  onMarkImportant = () =>{
-    this.setState({
-      important:true
+  onMarkImportant = () => {
+    this.setState(({important}) => {
+      return {
+        important: !important
+      };
     })
-  }
+  };
 
   render(){
 
-    const {label} = this.props;
+    const {label, onDeleted} = this.props;
     // достаем значение done из state
     const {done, important} = this.state;
     // создаем переменную чтоб дальше исползовать в функции
@@ -54,7 +57,8 @@ export default class TodoListItem extends Component{
         </button>
   
         <button type="button"
-                className="btn btn-outline-danger btn-sm float-right">
+                className="btn btn-outline-danger btn-sm float-right"
+                onClick = {onDeleted}>
           <i className="fa fa-trash-o" />
         </button>
       </span>
